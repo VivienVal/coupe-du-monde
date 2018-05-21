@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatchsService } from '../../services/matchs.service';
+import { Match } from '../../models/match.model';
+import { Subscription } from 'rxjs/subscription';
 
 @Component({
   selector: 'app-list-matchs',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListMatchsComponent implements OnInit {
 
-  constructor() { }
+  matchs: Match[];
+  matchSubscription: Subscription;
+
+  constructor(private matchsService:MatchsService) { }
 
   ngOnInit() {
+	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
+	  		(matchs: Match[]) => {
+	  			this.matchs = matchs;
+	  		}
+	  );
+	  this.matchsService.emitMatchs();
   }
+
+  /*onclick(){
+  console.log(this.matchs);
+	  this.matchs.sort(function(a, b) {
+	  	return a.date - b.date;
+	  });  	
+	  console.log(this.matchs);
+  }*/
 
 }

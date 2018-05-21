@@ -1,3 +1,22 @@
-<p>
-  list-paris works!
-</p>
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h2 class="text-center">Liste de vos paris</h2>
+    <div class="list-group">
+      <button
+        class="list-group-item"
+        *ngFor="let pari of paris; let i = index">
+        <div class="col-xs-6">
+          <h3 class="list-group-item-heading">
+          {{ pari.match.equipeA.name }} - {{ pari.match.equipeB.name }}
+          </h3>
+        </div>
+        <div class="col-xs-2">
+        	<h3 class="list-group-item-heading">{{ pari.scoreA }} - {{ pari.scoreB }}</h3>
+        </div>
+        <div class="col-xs-4 text-right">
+          <span class="list-group-item-text">{{ pari.match.date | date: 'EEEE, dd-MMMM-y HH:mm' }}</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,20 @@
-<p>
-  list-matchs works!
-</p>
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h2 class="text-center">Liste des matchs</h2>
+    <div class="list-group">
+      <button
+        class="list-group-item"
+        *ngFor="let match of matchs; let i = index"
+        (click)="onViewMacth(i);">
+        <div class="col-xs-8">
+          <h3 class="list-group-item-heading" style="">
+          {{ match.equipeA.name }} - {{ match.equipeB.name }}
+          </h3>
+        </div>
+        <div class="col-xs-4 text-right">
+          <span class="list-group-item-text">{{ match.date | date: 'EEEE, dd-MMMM-y HH:mm' }}</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

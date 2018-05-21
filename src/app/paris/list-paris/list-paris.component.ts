@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Pari } from '../../models/pari.model';
+import { ParisService } from '../../services/paris.service';
+import { Subscription } from 'rxjs/subscription';
 
 @Component({
   selector: 'app-list-paris',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListParisComponent implements OnInit {
 
-  constructor() { }
+  paris: Pari[];
+  parisSubscription: Subscription;
+
+  constructor(private parisService: ParisService) { }
 
   ngOnInit() {
+  	this.parisSubscription = this.parisService.parisSubject.subscribe(
+	  		(paris: Pari[]) => {
+	  			this.paris = paris;
+	  		}
+	  );
+	  this.parisService.emitParis();
   }
 
 }
