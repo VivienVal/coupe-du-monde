@@ -16,6 +16,7 @@ export class ListMatchsComponent implements OnInit {
   constructor(private matchsService:MatchsService) { }
 
   ngOnInit() {
+    this.matchsService.getMatchs();
 	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
 	  		(matchs: Match[]) => {
 	  			this.matchs = matchs;

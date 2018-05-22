@@ -16,6 +16,7 @@ export class ListParisComponent implements OnInit {
   constructor(private parisService: ParisService) { }
 
   ngOnInit() {
+    this.parisService.getParis();
   	this.parisSubscription = this.parisService.parisSubject.subscribe(
 	  		(paris: Pari[]) => {
 	  			this.paris = paris;

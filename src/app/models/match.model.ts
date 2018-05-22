@@ -4,13 +4,13 @@ export class Match {
 
 	equipeA: Team;
 	equipeB: Team;
-	date: Date;
+	date: string;
 	scoreA: number;
 	scoreB: number;
 
 	constructor(equipeA: Team, equipeB: Team, date: Date){
 		this.equipeA = equipeA;
 		this.equipeB = equipeB;
-		this.date = date;
+		this.date = date.toString();
 	}
 }
