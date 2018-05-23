@@ -1,3 +1,20 @@
-<p>
-  new-pari works!
-</p>
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <h2>Pariez sur ce match</h2>
+    <form [formGroup]="pariForm" (ngSubmit)="onSavePari()">
+      <div class="form-group">
+        <label for="scoreA">ScoreA</label>
+        <input type="text" id="scoreA"
+               class="form-control" formControlName="scoreA">
+      </div>
+      <div class="form-group">
+        <label for="scoreB">ScoreB</label>
+        <input type="text" id="scoreB"
+               class="form-control" formControlName="scoreB">
+      </div> 
+      <button class="btn btn-success" [disabled]="pariForm.invalid"
+            type="submit">Enregistrer
+      </button>
+    </form>
+  </div>
+</div>

@@ -12,8 +12,14 @@ export class MatchsService {
 
   matchsSubject = new Subject<Match[]>();
   matchs = [];
+  pariClicked: boolean = false;
+  pariClickedSubject = new Subject<boolean>();
 
   constructor() { }
+
+  emitPariClicked(){
+    this.pariClickedSubject.next(this.pariClicked);
+  }
 
   emitMatchs(){
   	this.matchsSubject.next(this.matchs);
@@ -44,5 +50,10 @@ export class MatchsService {
         );
       }
     );  
+  }
+
+  changePariClicked(){
+    this.pariClicked = !this.pariClicked;
+    this.emitPariClicked();
   }
 }

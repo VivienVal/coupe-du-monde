@@ -3,6 +3,7 @@ import { Match } from '../../models/match.model';
 import { Pari } from '../../models/pari.model';
 import { MatchsService} from '../../services/matchs.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/subscription';
 
 @Component({
   selector: 'app-single-match',
@@ -13,7 +14,8 @@ export class SingleMatchComponent implements OnInit {
 
   match: Match;
   pari: Pari;
-  onPariClicked: boolean
+  pariClicked: boolean;
+  pariSubscription: Subscription;
 
   constructor(	private matchsService: MatchsService,
   				private router: Router,
@@ -26,7 +28,12 @@ export class SingleMatchComponent implements OnInit {
   			this.match = match;
   		}
   	);
-  	this.onPariClicked = false;
+  	this.pariSubscription = this.matchsService.pariClickedSubject.subscribe(
+  		(pariClicked: boolean) => {
+  			this.pariClicked = pariClicked;
+  		}
+  	);
+  	this.matchsService.emitPariClicked();
   }
 
   onBack() {
@@ -34,6 +41,6 @@ export class SingleMatchComponent implements OnInit {
   }
 
   onPari() {
-  	this.onPariClicked = true;
+  	this.matchsService.changePariClicked();
   }
 }

@@ -5,6 +5,6 @@
     <p>{{ match.date | date:"EEEE, dd-MMMM-y HH:mm" }}</p>
     <button class="btn btn-default" (click)="onPari()">Parier sur ce match</button>
     <button class="btn btn-default" (click)="onBack()">Retour</button>
-    <app-new-pari *ngIf="onPariClicked"></app-new-pari>
+    <app-new-pari *ngIf="pariClicked"></app-new-pari>
   </div>
 </div>
