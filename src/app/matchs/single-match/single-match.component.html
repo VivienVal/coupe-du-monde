@@ -1,3 +1,10 @@
-<p>
-  single-match works!
-</p>
+<div class="row">
+  <div class="col-xs-12 text-center">
+  	<!--img style="max-width:400px;" *ngIf="book.photo" [src]="book.photo"-->
+    <h1>{{ match.equipeA.name }} - {{ match.equipeB.name }}</h1>
+    <p>{{ match.date | date:"EEEE, dd-MMMM-y HH:mm" }}</p>
+    <button class="btn btn-default" (click)="onPari()">Parier sur ce match</button>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+    <app-new-pari *ngIf="onPariClicked"></app-new-pari>
+  </div>
+</div>

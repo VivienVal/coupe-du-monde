@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatchsService } from '../../services/matchs.service';
 import { Match } from '../../models/match.model';
 import { Subscription } from 'rxjs/subscription';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-matchs',
   templateUrl: './list-matchs.component.html',
   styleUrls: ['./list-matchs.component.scss']
 })
-export class ListMatchsComponent implements OnInit {
+export class ListMatchsComponent implements OnInit, OnDestroy {
 
   matchs: Match[];
   matchSubscription: Subscription;
 
-  constructor(private matchsService:MatchsService) { }
+  constructor(  private matchsService:MatchsService,
+                private router: Router) { }
 
   ngOnInit() {
     this.matchsService.getMatchs();
@@ -33,4 +35,11 @@ export class ListMatchsComponent implements OnInit {
 	  console.log(this.matchs);
   }*/
 
+  onViewMatch(index: number){
+    this.router.navigate(['/matchs', 'view', index]);
+  }
+
+  ngOnDestroy(){
+    this.matchSubscription.unsubscribe();
+  }
 }
