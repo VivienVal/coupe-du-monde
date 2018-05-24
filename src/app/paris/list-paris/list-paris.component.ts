@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pari } from '../../models/pari.model';
 import { ParisService } from '../../services/paris.service';
 import { Subscription } from 'rxjs/subscription';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/subscription';
   templateUrl: './list-paris.component.html',
   styleUrls: ['./list-paris.component.scss']
 })
-export class ListParisComponent implements OnInit {
+export class ListParisComponent implements OnInit, OnDestroy {
 
   paris: Pari[];
   parisSubscription: Subscription;
@@ -24,4 +24,7 @@ export class ListParisComponent implements OnInit {
 	  this.parisService.emitParis();
   }
 
+  ngOnDestroy(){
+    this.parisSubscription.unsubscribe();
+  }
 }

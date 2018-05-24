@@ -50,7 +50,7 @@ export class ParisService {
   createNewPari(newPari: Pari){
     const id = this.checkPariAlreadyExist(newPari)
     if (id){
-      this.paris.splice(id,1,newPari);
+      this.paris.splice(+id,1,newPari);
     }
     else{
       this.paris.push(newPari);
