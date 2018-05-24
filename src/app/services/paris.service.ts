@@ -5,6 +5,7 @@ import { Team } from '../models/team.model';
 import { Subject } from 'rxjs/subject';
 import * as firebase from 'firebase';
 import DataSnapshot = firebase.database.DataSnapshot;
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ParisService {
   parisSubject = new Subject<Pari[]>();
   paris = [];
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   emitParis(){
   	this.parisSubject.next(this.paris);
@@ -25,12 +26,17 @@ export class ParisService {
   }
 
   getParis(){
-    firebase.database().ref('/paris')
-      .on('value', (data: DataSnapshot) => {
-        this.paris = data.val() ? data.val() : [];
-        this.emitParis();
-      }
-    );
+    if (this.authService.userName){
+      console.log('test');
+      firebase.database().ref('/paris')
+        .orderByChild("user")
+        .equalTo(this.authService.userName)
+        .on('value', (data: DataSnapshot) => {
+          this.paris = data.val() ? data.val() : [];
+          this.emitParis();
+        }
+      );
+    }
   }
 
   getSinglePari(id: number){
