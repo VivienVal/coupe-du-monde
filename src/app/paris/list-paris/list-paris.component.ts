@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pari } from '../../models/pari.model';
 import { ParisService } from '../../services/paris.service';
 import { Subscription } from 'rxjs/subscription';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-list-paris',
@@ -13,7 +14,8 @@ export class ListParisComponent implements OnInit, OnDestroy {
   paris: Pari[];
   parisSubscription: Subscription;
 
-  constructor(private parisService: ParisService) { }
+  constructor(  private parisService: ParisService,
+                private authService: AuthService) { }
 
   ngOnInit() {
   	this.parisSubscription = this.parisService.parisSubject.subscribe(

@@ -25,10 +25,18 @@ export class ParisService {
     firebase.database().ref('/paris').set(this.paris);
   }
 
-  getParis(userName: string){
+  getParis(){
+  /*
     firebase.database().ref('/paris')
       .orderByChild("user")
       .equalTo(userName)
+      .on('value', (data: DataSnapshot) => {
+        this.paris = data.val() ? data.val() : [];
+        this.emitParis();
+      }
+    );
+  */
+    firebase.database().ref('/paris')
       .on('value', (data: DataSnapshot) => {
         this.paris = data.val() ? data.val() : [];
         this.emitParis();
