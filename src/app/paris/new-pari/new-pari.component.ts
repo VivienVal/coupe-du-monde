@@ -46,6 +46,9 @@ export class NewPariComponent implements OnInit {
   	const scoreB = this.pariForm.get('scoreB').value;
     const id = this.route.snapshot.params['id'];
     const userName = firebase.auth().currentUser.email;
+    const match = this.matchsService.matchs[id];
+    const newPari = new Pari(match, scoreA, scoreB, userName);
+    this.parisService.createNewPari(newPari);
     this.matchsService.changePariClicked();
   }
 }

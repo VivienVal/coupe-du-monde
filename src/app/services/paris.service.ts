@@ -46,4 +46,10 @@ export class ParisService {
       }
     );  
   }
+
+  createNewPari(newPari: Pari){
+    this.paris.push(newPari);
+    this.saveParis();
+    this.emitParis();
+  }
 }
