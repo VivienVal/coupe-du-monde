@@ -3,9 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pari } from '../../models/pari.model';
 import { ParisService } from '../../services/paris.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as firebase from 'firebase';
 import { MatchsService } from '../../services/matchs.service';
 import { Subscription } from 'rxjs/subscription';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-new-pari',
@@ -22,7 +22,8 @@ export class NewPariComponent implements OnInit {
   				private parisService: ParisService,
   				private formBuilder: FormBuilder,
   				private route: ActivatedRoute,
-  				private matchsService: MatchsService) { }
+  				private matchsService: MatchsService,
+          private authService: AuthService) { }
 
   ngOnInit() {
   	this.initForm();
@@ -42,10 +43,10 @@ export class NewPariComponent implements OnInit {
   }
 
   onSavePari() {
+    const userName = this.authService.userName;
   	const scoreA = this.pariForm.get('scoreA').value;
   	const scoreB = this.pariForm.get('scoreB').value;
     const id = this.route.snapshot.params['id'];
-    const userName = firebase.auth().currentUser.email;
     const match = this.matchsService.matchs[id];
     const newPari = new Pari(match, scoreA, scoreB, userName);
     this.parisService.createNewPari(newPari);

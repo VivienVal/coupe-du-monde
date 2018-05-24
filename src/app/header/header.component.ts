@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs/subscription';
+import { MatchsService } from '../services/matchs.service';
+import { ParisService } from '../services/paris.service'; 
 
 @Component({
   selector: 'app-header',
@@ -14,9 +16,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userName: string;
   authSubscription: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(  private authService: AuthService,
+                private matchsService: MatchsService,
+                private parisService: ParisService) { }
 
-  ngOnInit() {
+  ngOnInit() {  
+    this.matchsService.getMatchs();    
+    this.parisService.getParis();
     this.authService.checkAuth();
     this.authSubscription = this.authService.authSubject.subscribe(
       (userName: string) => {
@@ -31,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
+    this.authService.signOutUser();
     this.authSubscription.unsubscribe();
   }
 }

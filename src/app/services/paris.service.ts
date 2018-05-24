@@ -48,8 +48,32 @@ export class ParisService {
   }
 
   createNewPari(newPari: Pari){
-    this.paris.push(newPari);
-    this.saveParis();
+    const id = this.checkPariAlreadyExist(newPari)
+    if (id){
+      this.paris.splice(id,1,newPari);
+    }
+    else{
+      this.paris.push(newPari);
+    }
     this.emitParis();
+    this.saveParis();
+  }
+
+  checkPariAlreadyExist(newPari: Pari){
+    for (let i in this.paris){
+      if (this.matchEquals(this.paris[i].match,newPari.match) && this.paris[i].user == newPari.user){
+        return i;
+      }
+    }
+    return false;
+  }
+
+  matchEquals(matchA: Match, matchB: Match){
+    if (matchA.equipeA.name === matchB.equipeA.name && 
+        matchA.equipeB.name === matchB.equipeB.name &&
+        matchA.date === matchB.date){
+          return true;
+        }
+    return false;
   }
 }
