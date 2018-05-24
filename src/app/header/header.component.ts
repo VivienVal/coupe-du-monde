@@ -21,13 +21,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 private parisService: ParisService) { }
 
   ngOnInit() {  
-    this.matchsService.getMatchs();    
-    this.parisService.getParis();
+    this.matchsService.getMatchs(); 
     this.authService.checkAuth();
     this.authSubscription = this.authService.authSubject.subscribe(
       (userName: string) => {
         this.isAuth = userName !== '';
         this.userName = userName;
+        if (userName){
+          this.parisService.getParis(userName);        
+        }
       }
     );
   }

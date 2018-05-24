@@ -25,18 +25,15 @@ export class ParisService {
     firebase.database().ref('/paris').set(this.paris);
   }
 
-  getParis(){
-    if (this.authService.userName){
-      console.log('test');
-      firebase.database().ref('/paris')
-        .orderByChild("user")
-        .equalTo(this.authService.userName)
-        .on('value', (data: DataSnapshot) => {
-          this.paris = data.val() ? data.val() : [];
-          this.emitParis();
-        }
-      );
-    }
+  getParis(userName: string){
+    firebase.database().ref('/paris')
+      .orderByChild("user")
+      .equalTo(userName)
+      .on('value', (data: DataSnapshot) => {
+        this.paris = data.val() ? data.val() : [];
+        this.emitParis();
+      }
+    );
   }
 
   getSinglePari(id: number){
