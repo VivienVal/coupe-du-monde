@@ -31,12 +31,16 @@ export class AuthService {
   signInUser(email: string, password: string){
   	return new Promise(
 	  	(resolve, reject) => {
-	  		firebase.auth().signInWithEmailAndPassword(email, password).then(
+	  		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
 	  			() => {
-	  				resolve();
-	  			},
-	  			(error) => {
-	  				reject(error);
+	  				firebase.auth().signInWithEmailAndPassword(email, password).then(
+			  			() => {
+			  				resolve();
+			  			},
+			  			(error) => {
+			  				reject(error);
+			  			}
+		  			);
 	  			}
 	  		);
 	  	}
