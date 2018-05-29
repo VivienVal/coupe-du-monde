@@ -18,6 +18,7 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
                 private router: Router) { }
 
   ngOnInit() {
+    this.matchsService.saveMatchs();
 	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
 	  		(matchs: Match[]) => {
 	  			this.matchs = matchs;

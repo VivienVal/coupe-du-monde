@@ -9,8 +9,9 @@ export class Match {
 	scoreB: number;
 
 	constructor(equipeA: Team, equipeB: Team, date: Date){
+		var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 		this.equipeA = equipeA;
 		this.equipeB = equipeB;
-		this.date = date.toString();
+		this.date = date.toLocaleString('fr-FR', options);
 	}
 }

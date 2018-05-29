@@ -18,6 +18,7 @@ export class ListParisComponent implements OnInit, OnDestroy {
                 private authService: AuthService) { }
 
   ngOnInit() {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   	this.parisSubscription = this.parisService.parisSubject.subscribe(
 	  		(paris: Pari[]) => {
 	  			this.paris = paris;
