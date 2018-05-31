@@ -14,6 +14,8 @@ import { ListParisComponent } from './paris/list-paris/list-paris.component';
 import { NewPariComponent } from './paris/new-pari/new-pari.component';
 import { SinglePouleComponent } from './poules/single-poule/single-poule.component';
 import { SingleTeamComponent } from './teams/single-team/single-team.component';
+import { ListUsersComponent } from './users/list-users/list-users.component';
+import { SetMatchScoreComponent } from './matchs/set-match-score/set-match-score.component';
 
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
@@ -21,8 +23,6 @@ import { MatchsService } from './services/matchs.service';
 import { ParisService } from './services/paris.service';
 import { PoulesService } from './services/poules.service';
 import { TeamsService } from './services/teams.service';
-import { ListUsersComponent } from './users/list-users/list-users.component';
-import { SetMatchScoreComponent } from './matchs/set-match-score/set-match-score.component';
 
 
 const appRoutes = [
