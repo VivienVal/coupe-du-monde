@@ -2,9 +2,11 @@
   <div class="col-xs-12 text-center">
   	<!--img style="max-width:400px;" *ngIf="book.photo" [src]="book.photo"-->
     <h1 *ngIf="match">{{ match.equipeA.name }} - {{ match.equipeB.name }}</h1>
-    <p *ngIf="match">{{ match.date | date:"EEEE, dd-MMMM-y HH:mm" }}</p>
+    <p *ngIf="match">{{ match.date }}</p>
     <button class="btn btn-default" (click)="onPari()">Parier sur ce match</button>
+    <button class="btn btn-default" (click)="onClickSetScore()">Entrer le score du match</button>
     <button class="btn btn-default" (click)="onBack()">Retour</button>
     <app-new-pari *ngIf="pariClicked"></app-new-pari>
+    <app-set-match-score *ngIf="setScoreClicked"></app-set-match-score>
   </div>
 </div>

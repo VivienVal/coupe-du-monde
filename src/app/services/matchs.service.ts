@@ -11,18 +11,20 @@ import DataSnapshot = firebase.database.DataSnapshot;
 export class MatchsService {
 
   matchsSubject = new Subject<Match[]>();
-  matchs = [
-    new Match(new Team('France'), new Team('Belgique'), new Date('December 17, 1995 03:24:00')),
-    new Match(new Team('Angleterre'), new Team('Allemagne'), new Date('December 14, 1995 03:24:00')),
-    new Match(new Team('Irelande'), new Team('Galles'), new Date('December 15, 1995 03:24:00'))
-  ];
+  matchs = [];
   pariClicked: boolean = false;
+  setScoreClicked: boolean = false;
   pariClickedSubject = new Subject<boolean>();
+  scoreClickedSubject = new Subject<boolean>();
 
   constructor() { }
 
   emitPariClicked(){
     this.pariClickedSubject.next(this.pariClicked);
+  }
+
+  emitscoreClicked(){
+    this.scoreClickedSubject.next(this.setScoreClicked);
   }
 
   emitMatchs(){
@@ -59,5 +61,17 @@ export class MatchsService {
   changePariClicked(){
     this.pariClicked = !this.pariClicked;
     this.emitPariClicked();
+  }
+
+  changeScoreClicked(){
+    this.setScoreClicked = !this.setScoreClicked;
+    this.emitscoreClicked();
+  }
+
+  setMatchScore(id, scoreA, scoreB){
+    this.matchs[id].scoreA = scoreA;
+    this.matchs[id].scoreB = scoreB;
+    this.emitMatchs();
+    this.saveMatchs();
   }
 }

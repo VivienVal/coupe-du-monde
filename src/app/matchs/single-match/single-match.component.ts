@@ -15,7 +15,9 @@ export class SingleMatchComponent implements OnInit {
   match: Match;
   pari: Pari;
   pariClicked: boolean;
+  setScoreClicked: boolean;
   pariSubscription: Subscription;
+  setScoreSubscription: Subscription;
 
   constructor(	private matchsService: MatchsService,
   				private router: Router,
@@ -33,6 +35,11 @@ export class SingleMatchComponent implements OnInit {
   			this.pariClicked = pariClicked;
   		}
   	);
+    this.setScoreSubscription = this.matchsService.scoreClickedSubject.subscribe(
+      (scoreClicked: boolean) => {
+        this.setScoreClicked = scoreClicked;
+      }
+    );
   	this.matchsService.emitPariClicked();
   }
 
@@ -42,5 +49,9 @@ export class SingleMatchComponent implements OnInit {
 
   onPari() {
   	this.matchsService.changePariClicked();
+  }
+
+  onClickSetScore() {
+    this.matchsService.changeScoreClicked();
   }
 }

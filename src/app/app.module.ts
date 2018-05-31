@@ -22,6 +22,7 @@ import { ParisService } from './services/paris.service';
 import { PoulesService } from './services/poules.service';
 import { TeamsService } from './services/teams.service';
 import { ListUsersComponent } from './users/list-users/list-users.component';
+import { SetMatchScoreComponent } from './matchs/set-match-score/set-match-score.component';
 
 
 const appRoutes = [
@@ -50,7 +51,8 @@ const appRoutes = [
     NewPariComponent,
     SinglePouleComponent,
     SingleTeamComponent,
-    ListUsersComponent
+    ListUsersComponent,
+    SetMatchScoreComponent
   ],
   imports: [
     BrowserModule,

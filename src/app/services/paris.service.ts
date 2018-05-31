@@ -87,4 +87,8 @@ export class ParisService {
         }
     return false;
   }
+
+  setScorePari(match: Match, scoreA: number, scoreB: number){
+    
+  }
 }
