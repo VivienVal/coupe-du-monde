@@ -21,6 +21,7 @@ import { MatchsService } from './services/matchs.service';
 import { ParisService } from './services/paris.service';
 import { PoulesService } from './services/poules.service';
 import { TeamsService } from './services/teams.service';
+import { ListUsersComponent } from './users/list-users/list-users.component';
 
 
 const appRoutes = [
@@ -48,7 +49,8 @@ const appRoutes = [
     ListParisComponent,
     NewPariComponent,
     SinglePouleComponent,
-    SingleTeamComponent
+    SingleTeamComponent,
+    ListUsersComponent
   ],
   imports: [
     BrowserModule,

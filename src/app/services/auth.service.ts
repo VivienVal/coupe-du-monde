@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs/subject';
+import { User } from '../models/user.model'
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
 	  	(resolve, reject) => {
 	  		firebase.auth().createUserWithEmailAndPassword(email, password).then(
 		  		() => {
+	  				this.instanciateUser(email);	
 		  			resolve();
 		  		},
 		  		(error) => {
@@ -66,5 +68,10 @@ export class AuthService {
 	  		}
 	  	}
 	);
+  }
+
+  instanciateUser(userName){
+  	const newUser = new User(userName);
+  	firebase.database().ref('/users').push(newUser);
   }
 }
