@@ -25,23 +25,19 @@ export class ParisService {
   }
 
   saveParis(){
+    for (let pari of this.paris){
+      pari.match['intDate'] = pari.match.date.getTime();
+    }
     firebase.database().ref('/paris').set(this.paris);
   }
 
   getParis(){
-  /*
-    firebase.database().ref('/paris')
-      .orderByChild("user")
-      .equalTo(userName)
-      .on('value', (data: DataSnapshot) => {
-        this.paris = data.val() ? data.val() : [];
-        this.emitParis();
-      }
-    );
-  */
     firebase.database().ref('/paris')
       .on('value', (data: DataSnapshot) => {
         this.paris = data.val() ? data.val() : [];
+        for (let pari of this.paris){
+          pari.match['date'] = new Date(pari.match.intDate);
+        }
         this.emitParis();
       }
     );
@@ -52,7 +48,9 @@ export class ParisService {
       (resolve, reject) => {
         firebase.database().ref('/paris/' + id).once('value').then(
           (data: DataSnapshot) => {
-            resolve(data.val());
+            const pari = data.val();
+            pari.match['date'] = new Date(pari.match.intDate);
+            resolve(pari);
           }, (error) => {
             reject(error);
           }
@@ -62,7 +60,7 @@ export class ParisService {
   }
 
   createNewPari(newPari: Pari){
-    const id = this.checkPariAlreadyExist(newPari)
+    const id = this.checkPariAlreadyExist(newPari);
     if (id){
       this.paris.splice(+id,1,newPari);
     }
@@ -83,12 +81,9 @@ export class ParisService {
   }
 
   matchEquals(matchA: Match, matchB: Match){
-    if (matchA.equipeA.name === matchB.equipeA.name && 
+    return (matchA.equipeA.name === matchB.equipeA.name && 
         matchA.equipeB.name === matchB.equipeB.name &&
-        matchA.date === matchB.date){
-          return true;
-        }
-    return false;
+        matchA.intDate == matchB.intDate);
   }
 
   setScorePari(match: Match, scoreA: number, scoreB: number){

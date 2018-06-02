@@ -32,6 +32,9 @@ export class MatchsService {
   }
 
   saveMatchs(){
+    for (let match of this.matchs){
+      match['intDate'] = match.date.getTime();
+    }
     firebase.database().ref('/matchs').set(this.matchs);
   }
 
@@ -39,6 +42,9 @@ export class MatchsService {
     firebase.database().ref('/matchs')
       .on('value', (data: DataSnapshot) => {
         this.matchs = data.val() ? data.val() : [];
+        for (let match of this.matchs){
+          match['date'] = new Date(match.intDate);
+        }
         this.emitMatchs();
       }
     );
@@ -49,7 +55,9 @@ export class MatchsService {
       (resolve, reject) => {
         firebase.database().ref('/matchs/' + id).once('value').then(
           (data: DataSnapshot) => {
-            resolve(data.val());
+            const match = data.val();
+            match['date'] = new Date(match.intDate);
+            resolve(match);
           }, (error) => {
             reject(error);
           }
@@ -71,6 +79,12 @@ export class MatchsService {
   setMatchScore(id, scoreA, scoreB){
     this.matchs[id].scoreA = scoreA;
     this.matchs[id].scoreB = scoreB;
+    this.emitMatchs();
+    this.saveMatchs();
+  }
+
+  createMatch(newMatch: Match){
+    this.matchs.push(newMatch);
     this.emitMatchs();
     this.saveMatchs();
   }

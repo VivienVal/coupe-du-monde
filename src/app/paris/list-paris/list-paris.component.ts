@@ -13,6 +13,7 @@ export class ListParisComponent implements OnInit, OnDestroy {
 
   paris: Pari[];
   parisSubscription: Subscription;
+  options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 
   constructor(  private parisService: ParisService,
                 private authService: AuthService) { }

@@ -48,6 +48,7 @@ export class NewPariComponent implements OnInit {
   	const scoreB = this.pariForm.get('scoreB').value;
     const id = this.route.snapshot.params['id'];
     const match = this.matchsService.matchs[id];
+    console.log(match);
     const newPari = new Pari(match, scoreA, scoreB, userName);
     this.parisService.createNewPari(newPari);
     this.matchsService.changePariClicked();

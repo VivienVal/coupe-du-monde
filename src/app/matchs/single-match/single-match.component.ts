@@ -18,6 +18,9 @@ export class SingleMatchComponent implements OnInit {
   setScoreClicked: boolean;
   pariSubscription: Subscription;
   setScoreSubscription: Subscription;
+  isScoreSet: boolean = false;
+  options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+  isMatchDatePassed: boolean;
 
   constructor(	private matchsService: MatchsService,
   				private router: Router,
@@ -28,6 +31,8 @@ export class SingleMatchComponent implements OnInit {
   	this.matchsService.getSingleMatch(+id).then(
   		(match: Match) => {
   			this.match = match;
+        this.isScoreSet = (typeof(match.scoreA) != 'undefined');
+        this.isMatchDatePassed = new Date() > match.date;
   		}
   	);
   	this.pariSubscription = this.matchsService.pariClickedSubject.subscribe(

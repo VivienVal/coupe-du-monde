@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 private matchsService: MatchsService,
                 private parisService: ParisService) { }
 
-  ngOnInit() {  
+  ngOnInit() {
     this.matchsService.getMatchs(); 
     this.parisService.getParis();
     this.parisService.getUsers();   

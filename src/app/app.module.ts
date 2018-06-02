@@ -16,6 +16,7 @@ import { SinglePouleComponent } from './poules/single-poule/single-poule.compone
 import { SingleTeamComponent } from './teams/single-team/single-team.component';
 import { ListUsersComponent } from './users/list-users/list-users.component';
 import { SetMatchScoreComponent } from './matchs/set-match-score/set-match-score.component';
+import { NewMatchComponent } from './matchs/new-match/new-match.component';
 
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
@@ -29,6 +30,7 @@ const appRoutes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/signin', component: SigninComponent },
   { path: 'matchs/list', component: ListMatchsComponent },
+  { path: 'matchs/new', component: NewMatchComponent },
   { path: 'matchs/view/:id', canActivate:[AuthGuardService], component: SingleMatchComponent },
   { path: 'paris/list', canActivate:[AuthGuardService], component: ListParisComponent },
   { path: 'paris/new', canActivate:[AuthGuardService], component: NewPariComponent },
@@ -52,7 +54,8 @@ const appRoutes = [
     SinglePouleComponent,
     SingleTeamComponent,
     ListUsersComponent,
-    SetMatchScoreComponent
+    SetMatchScoreComponent,
+    NewMatchComponent
   ],
   imports: [
     BrowserModule,

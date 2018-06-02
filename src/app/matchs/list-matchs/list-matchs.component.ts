@@ -13,6 +13,7 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
 
   matchs: Match[];
   matchSubscription: Subscription;
+  options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 
   constructor(  private matchsService:MatchsService,
                 private router: Router) { }
