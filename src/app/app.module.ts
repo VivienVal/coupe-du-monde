@@ -30,7 +30,7 @@ const appRoutes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/signin', component: SigninComponent },
   { path: 'matchs/list', component: ListMatchsComponent },
-  { path: 'matchs/new', component: NewMatchComponent },
+  { path: 'matchs/new', canActivate:[AuthGuardService], component: NewMatchComponent },
   { path: 'matchs/view/:id', canActivate:[AuthGuardService], component: SingleMatchComponent },
   { path: 'paris/list', canActivate:[AuthGuardService], component: ListParisComponent },
   { path: 'paris/new', canActivate:[AuthGuardService], component: NewPariComponent },
