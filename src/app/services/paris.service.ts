@@ -123,6 +123,11 @@ export class ParisService {
     firebase.database().ref('/users')
       .on('value', (data: DataSnapshot) => {
         this.users = data.val() ? data.val() : [];
+        this.users.sort(
+          (a, b) => {
+            return b.nbPoints - a.nbPoints;
+          }
+        )
         this.emitUsers();
       }
     );
