@@ -24,6 +24,7 @@ import { MatchsService } from './services/matchs.service';
 import { ParisService } from './services/paris.service';
 import { PoulesService } from './services/poules.service';
 import { TeamsService } from './services/teams.service';
+import { UsersService } from './services/users.service';
 
 
 const appRoutes = [
@@ -35,7 +36,8 @@ const appRoutes = [
   { path: 'paris/list', canActivate:[AuthGuardService], component: ListParisComponent },
   { path: 'paris/new', canActivate:[AuthGuardService], component: NewPariComponent },
   { path: 'poule/:id', component: SinglePouleComponent },
-  { path: 'team/:id', component: SingleTeamComponent },
+  { path: 'team/:id', component: SingleTeamComponent },  
+  { path: 'users/list', component: ListUsersComponent },
   { path: '', redirectTo: 'matchs/list', pathMatch: 'full' },
   { path: '**', redirectTo: 'matchs/list' }
 ];
@@ -70,7 +72,8 @@ const appRoutes = [
     MatchsService,
     ParisService,
     PoulesService,
-    TeamsService
+    TeamsService,
+    UsersService
   ],
   bootstrap: [AppComponent]
 })

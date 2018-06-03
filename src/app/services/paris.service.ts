@@ -6,7 +6,6 @@ import { Team } from '../models/team.model';
 import { Subject } from 'rxjs/subject';
 import * as firebase from 'firebase';
 import DataSnapshot = firebase.database.DataSnapshot;
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class ParisService {
   paris = [];
   users = [];
 
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
   emitParis(){
   	this.parisSubject.next(this.paris);

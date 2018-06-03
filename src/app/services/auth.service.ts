@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs/subject';
-import { User } from '../models/user.model'
+import { User } from '../models/user.model';
+import { ParisService } from './paris.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ export class AuthService {
   isAuth: boolean;
   userName: string;
   authSubject = new Subject<string>();
+  users = [];
 
-  constructor() { }
+  constructor(	private parisService: ParisService) { }
 
   createNewUser(email: string, password: string){
   	return new Promise(
@@ -71,7 +73,10 @@ export class AuthService {
   }
 
   instanciateUser(userName){
+  	this.users = this.parisService.users;
   	const newUser = new User(userName);
-  	firebase.database().ref('/users').push(newUser);
+  	this.users.push(newUser);
+  	firebase.database().ref('/users').set(this.users);
+  	this.parisService.emitUsers();
   }
 }

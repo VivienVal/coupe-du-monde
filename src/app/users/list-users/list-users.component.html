@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h2 class="text-center">Classement des utilisateurs</h2>
+    <div class="list-group">
+      <button
+        class="list-group-item"
+        *ngFor="let user of users; let i = index">
+        <div class="col-xs-10">
+          <h3 class="list-group-item-heading" style="">
+            {{ user.userName }}
+          </h3>
+        </div>
+        <div class="col-xs-2"> 
+          <h3 class="list-group-item-heading">{{ user.nbPoints }}</h3>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
