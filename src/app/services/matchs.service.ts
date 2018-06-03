@@ -45,6 +45,11 @@ export class MatchsService {
         for (let match of this.matchs){
           match['date'] = new Date(match.intDate);
         }
+        this.matchs.sort(
+          (a, b) => {
+            return a.intDate - b.intDate;
+          }
+        );
         this.emitMatchs();
       }
     );

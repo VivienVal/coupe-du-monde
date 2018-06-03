@@ -37,6 +37,11 @@ export class ParisService {
         for (let pari of this.paris){
           pari.match['date'] = new Date(pari.match.intDate);
         }
+        this.paris.sort(
+          (a, b) => {
+            return a.match.intDate - b.match.intDate;
+          }
+        );        
         this.emitParis();
       }
     );
