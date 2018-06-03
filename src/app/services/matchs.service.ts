@@ -10,12 +10,15 @@ import DataSnapshot = firebase.database.DataSnapshot;
 })
 export class MatchsService {
 
-  matchsSubject = new Subject<Match[]>();
   matchs = [];
   pariClicked: boolean = false;
   setScoreClicked: boolean = false;
+  changeMatch: boolean = false;
+
+  matchsSubject = new Subject<Match[]>();
   pariClickedSubject = new Subject<boolean>();
   scoreClickedSubject = new Subject<boolean>();
+  changeMatchSubject = new Subject<boolean>();
 
   constructor() { }
 
@@ -25,6 +28,10 @@ export class MatchsService {
 
   emitscoreClicked(){
     this.scoreClickedSubject.next(this.setScoreClicked);
+  }
+
+  emitChangeMatch(){
+    this.changeMatchSubject.next(this.changeMatch);
   }
 
   emitMatchs(){
@@ -79,6 +86,11 @@ export class MatchsService {
   changeScoreClicked(){
     this.setScoreClicked = !this.setScoreClicked;
     this.emitscoreClicked();
+  }
+
+  changeDisplayMatch(){
+    this.changeMatch = !this.changeMatch;
+    this.emitChangeMatch();
   }
 
   setMatchScore(id, scoreA, scoreB){

@@ -13,30 +13,43 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
 
   matchs: Match[];
   matchSubscription: Subscription;
+  changeMatchSubscription: Subscription;
   options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+  passedMatchs = [];
+  futurMatchs = [];
+  changeMatch: boolean;
 
-  constructor(  private matchsService:MatchsService,
+  constructor(  private matchsService: MatchsService,
                 private router: Router) { }
 
   ngOnInit() {
 	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
 	  		(matchs: Match[]) => {
-	  			this.matchs = matchs;
+	  			this.matchs = matchs;          
+          for (let match of this.matchs){
+            if (match.intDate < new Date().getTime()){
+              this.passedMatchs.push(match);
+            }
+            else {
+              this.futurMatchs.push(match);
+            }
+          }
 	  		}
 	  );
+    this.changeMatchSubscription = this.matchsService.changeMatchSubject.subscribe(
+      (changeMatch: boolean) => {
+        this.changeMatch = changeMatch;
+      }
+    );
 	  this.matchsService.emitMatchs();
   }
 
-  /*onclick(){
-  console.log(this.matchs);
-	  this.matchs.sort(function(a, b) {
-	  	return a.date - b.date;
-	  });  	
-	  console.log(this.matchs);
-  }*/
-
   onViewMatch(index: number){
     this.router.navigate(['/matchs', 'view', index]);
+  }
+
+  onChangeMatchs(){
+    this.matchsService.changeDisplayMatch();
   }
 
   ngOnDestroy(){
