@@ -58,6 +58,7 @@ export class MatchsService {
           }
         );
         this.emitMatchs();
+        this.saveMatchs();
       }
     );
   }
@@ -104,5 +105,11 @@ export class MatchsService {
     this.matchs.push(newMatch);
     this.emitMatchs();
     this.saveMatchs();
+  }
+
+  matchEquals(matchA: Match, matchB: Match){
+    return (matchA.equipeA.name === matchB.equipeA.name && 
+        matchA.equipeB.name === matchB.equipeB.name &&
+        matchA.intDate == matchB.intDate);
   }
 }

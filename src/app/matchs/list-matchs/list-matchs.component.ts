@@ -18,6 +18,7 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
   passedMatchs = [];
   futurMatchs = [];
   changeMatch: boolean;
+  matchIndex: number;
 
   constructor(  private matchsService: MatchsService,
                 private router: Router) { }
@@ -44,8 +45,22 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
 	  this.matchsService.emitMatchs();
   }
 
-  onViewMatch(index: number){
-    this.router.navigate(['/matchs', 'view', index]);
+  onViewMatch(index: number, whatTab: string){
+    if (whatTab == 'p'){
+      for (let i in this.matchs){
+        if (this.matchsService.matchEquals(this.matchs[i], this.passedMatchs[index])){
+          this.matchIndex = +i;
+        }
+      }
+    }
+    else{
+      for (let i in this.matchs){
+        if (this.matchsService.matchEquals(this.matchs[i], this.futurMatchs[index])){
+          this.matchIndex = +i;
+        }
+      }
+    }
+    this.router.navigate(['/matchs', 'view', this.matchIndex]);
   }
 
   onChangeMatchs(){

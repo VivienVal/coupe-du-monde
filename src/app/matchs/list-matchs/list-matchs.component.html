@@ -1,14 +1,14 @@
-<div class="row">
+<div class="row" *ngIf="!changeMatch">
   <div class="col-xs-2">
     <button class="btn btn-default" (click)="onChangeMatchs()">Voir les matchs terminés</button>
   </div>
-  <div class="col-xs-8" *ngIf="changeMatch">
+  <div class="col-xs-8">
     <h2 class="text-center">Liste des matchs à venir</h2>
     <div class="list-group">
       <button
         class="list-group-item"
         *ngFor="let match of futurMatchs; let i = index"
-        (click)="onViewMatch(i)">
+        (click)="onViewMatch(i, 'f')">
         <div class="col-xs-8">
           <h3 class="list-group-item-heading" style="">
           {{ match.equipeA.name }} - {{ match.equipeB.name }}
@@ -20,14 +20,19 @@
       </button>
     </div>
   </div>
+</div>
 
-  <div class="col-xs-8" *ngIf="!changeMatch">
+<div class="row" *ngIf="changeMatch">
+  <div class="col-xs-2">
+    <button class="btn btn-default" (click)="onChangeMatchs()">Voir les matchs à venir</button>
+  </div>
+  <div class="col-xs-8">
     <h2 class="text-center">Liste des matchs terminés</h2>
     <div class="list-group">
       <button
         class="list-group-item"
         *ngFor="let match of passedMatchs; let i = index"
-        (click)="onViewMatch(i)">
+        (click)="onViewMatch(i, 'p')">
         <div class="col-xs-6">
           <h3 class="list-group-item-heading">
           {{ match.equipeA.name }} - {{ match.equipeB.name }}

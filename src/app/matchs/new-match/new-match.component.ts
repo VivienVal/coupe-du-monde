@@ -4,6 +4,7 @@ import { Team } from '../../models/team.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatchsService } from '../../services/matchs.service';
+import { TeamsService } from '../../services/teams.service';
 
 @Component({
   selector: 'app-new-match',
@@ -17,7 +18,8 @@ export class NewMatchComponent implements OnInit {
   constructor(	private router: Router,
   				private formBuilder: FormBuilder,
   				private route: ActivatedRoute,
-  				private matchsService: MatchsService
+  				private matchsService: MatchsService,
+          private teamsService: TeamsService
 			) { }
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class NewMatchComponent implements OnInit {
   	const date = this.matchForm.get('date').value;
     const newMatch = new Match(equipeA, equipeB, date);
     this.matchsService.createMatch(newMatch);
+    this.teamsService.createTeams(equipeA, equipeB);
     this.router.navigate(['/matchs', 'list']);
   }
 }

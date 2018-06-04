@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatchsService } from '../../services/matchs.service';
 import { Subscription } from 'rxjs/subscription';
 import { AuthService } from '../../services/auth.service';
+import { TeamsService } from '../../services/teams.service';
 
 @Component({
   selector: 'app-set-match-score',
@@ -23,7 +24,8 @@ export class SetMatchScoreComponent implements OnInit {
   				private formBuilder: FormBuilder,
   				private route: ActivatedRoute,
   				private matchsService: MatchsService,
-          private authService: AuthService) { }
+          private authService: AuthService,
+          private teamsService: TeamsService) { }
 
   ngOnInit() {
   	this.initForm();
@@ -49,6 +51,7 @@ export class SetMatchScoreComponent implements OnInit {
     const match = this.matchsService.matchs[id];
     this.matchsService.setMatchScore(id, scoreA, scoreB);
     this.parisService.setScorePari(match, scoreA, scoreB);
+    this.teamsService.setTeamPoints(scoreA, scoreB, match.equipeA, match.equipeB);
     this.matchsService.changeScoreClicked();
   }
 }
