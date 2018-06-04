@@ -53,6 +53,25 @@ export class TeamsService {
   }
 
   setTeamPoints(scoreA: number, scoreB: number, equipeA: Team, equipeB: Team){
-  	console.log(scoreA, scoreB, equipeA, equipeB);
+  	for (let team of this.teams){
+  		if (team.name == equipeA.name){
+  			if (scoreA > scoreB){
+  				team.points += 3;		
+  			}
+  			else if (scoreA == scoreB){
+  				team.points += 1;
+  			}
+  		}
+  		else if (team.name == equipeB.name){
+  			if (scoreB > scoreA){
+  				team.points += 3;			
+  			}
+  			else if (scoreA == scoreB){
+  				team.points += 1;
+  			}
+  		}
+  	}
+  	this.emitTeams();
+  	this.saveTeams();
   }
 }
