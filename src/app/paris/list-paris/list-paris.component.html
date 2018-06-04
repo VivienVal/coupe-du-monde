@@ -4,7 +4,8 @@
     <div class="list-group"
         *ngFor="let pari of paris; let i = index">
       <button class="list-group-item"
-              *ngIf="pari.user === authService.userName">
+              *ngIf="pari.user === authService.userName"
+              (click)="onViewPari(i)">
         <div class="row">
           <div class="col-xs-6">
             <h3 class="list-group-item-heading">
