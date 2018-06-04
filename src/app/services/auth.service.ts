@@ -12,6 +12,7 @@ export class AuthService {
   isAuth: boolean;
   userName: string;
   authSubject = new Subject<string>();
+  userTypeSubject = new Subject<string>();
   users = [];
 
   constructor(	private parisService: ParisService) { }
@@ -62,6 +63,7 @@ export class AuthService {
 	  			this.isAuth = true;
          		this.userName = user.email;
           		this.authSubject.next(this.userName);
+          		this.userTypeSubject.next(this.findUserType(this.userName));
 	  		}
 	  		else {
 	  			this.isAuth = false;
@@ -70,6 +72,15 @@ export class AuthService {
 	  		}
 	  	}
 	);
+  }
+
+  findUserType(userName: string){
+  	for (let user of this.parisService.users){
+  		if (userName == user.userName){
+  			return user.type;
+  		}
+  	}
+  	return 'undefined';
   }
 
   instanciateUser(userName){

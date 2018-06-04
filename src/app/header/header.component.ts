@@ -14,8 +14,10 @@ import { TeamsService } from '../services/teams.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   isAuth: boolean;
+  isAdmin: boolean;
   userName: string;
   authSubscription: Subscription;
+  userTypeSubscription: Subscription;
 
   constructor(  private authService: AuthService,
                 private matchsService: MatchsService,
@@ -32,6 +34,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (userName: string) => {
         this.isAuth = userName !== '';
         this.userName = userName;
+      }
+    );
+    this.userTypeSubscription = this.authService.userTypeSubject.subscribe(
+      (userType: string) => {
+        this.isAdmin = userType == 'admin';
       }
     );
   }
