@@ -1,9 +1,9 @@
 import { Team } from './team.model';
 
-export class poule {
-	poule: Team[];
+export class Poule {
+	name: string;
 
-	constructor(poule: Team[]){
-		this.poule = poule;
+	constructor(name: string){
+		this.name = name;
 	}
 }

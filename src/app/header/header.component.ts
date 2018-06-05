@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/subscription';
 import { MatchsService } from '../services/matchs.service';
 import { ParisService } from '../services/paris.service'; 
 import { TeamsService } from '../services/teams.service';
+import { PoulesService } from '../services/poules.service';
 
 @Component({
   selector: 'app-header',
@@ -22,13 +23,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(  private authService: AuthService,
                 private matchsService: MatchsService,
                 private parisService: ParisService,
-                private teamsService: TeamsService) { }
+                private teamsService: TeamsService,
+                private poulesService: PoulesService) { }
 
   ngOnInit() {
     this.matchsService.getMatchs(); 
     this.parisService.getParis();
     this.parisService.getUsers();  
-    this.teamsService.getTeams(); 
+    this.teamsService.getTeams();
+    this.poulesService.getPoules();
     this.authService.checkAuth();
     this.authSubscription = this.authService.authSubject.subscribe(
       (userName: string) => {

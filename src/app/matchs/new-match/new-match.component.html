@@ -16,7 +16,12 @@
         <label for="date">date (format aaaa-mm-jjThh:mm:ss)</label>
         <input type="text" id="date"
                class="form-control" formControlName="date">
-      </div> 
+      </div>
+      <div class="form-group">
+        <label for="poule">poule</label>
+        <input type="text" id="poule"
+               class="form-control" formControlName="poule">
+      </div>
       <button class="btn btn-success" [disabled]="matchForm.invalid"
             type="submit">Enregistrer
       </button>
