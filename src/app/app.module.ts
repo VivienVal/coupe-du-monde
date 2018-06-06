@@ -17,6 +17,7 @@ import { SingleTeamComponent } from './teams/single-team/single-team.component';
 import { ListUsersComponent } from './users/list-users/list-users.component';
 import { SetMatchScoreComponent } from './matchs/set-match-score/set-match-score.component';
 import { NewMatchComponent } from './matchs/new-match/new-match.component';
+import { ListPoulesComponent } from './poules/list-poules/list-poules.component';
 
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
@@ -38,6 +39,7 @@ const appRoutes = [
   { path: 'poule/:id', component: SinglePouleComponent },
   { path: 'team/:id', component: SingleTeamComponent },  
   { path: 'users/list', component: ListUsersComponent },
+  { path: 'poules/list', component: ListPoulesComponent },
   { path: '', redirectTo: 'matchs/list', pathMatch: 'full' },
   { path: '**', redirectTo: 'matchs/list' }
 ];
@@ -57,7 +59,8 @@ const appRoutes = [
     SingleTeamComponent,
     ListUsersComponent,
     SetMatchScoreComponent,
-    NewMatchComponent
+    NewMatchComponent,
+    ListPoulesComponent
   ],
   imports: [
     BrowserModule,

@@ -61,9 +61,9 @@ export class AuthService {
 	  	(user) => {
 	  		if (user){
 	  			this.isAuth = true;
-         		this.userName = user.email;
-          		this.authSubject.next(this.userName);
-          		this.userTypeSubject.next(this.findUserType(this.userName));
+         	this.userName = user.email;
+          this.authSubject.next(this.userName);
+          this.userTypeSubject.next(this.findUserType(user.email));
 	  		}
 	  		else {
 	  			this.isAuth = false;

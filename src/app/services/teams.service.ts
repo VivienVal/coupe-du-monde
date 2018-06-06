@@ -33,7 +33,6 @@ export class TeamsService {
 
   createTeams(equipeA: Team, equipeB: Team){
   	if (this.checkTeamInexistence(equipeA)){
-  		console.log('tres');
   		this.teams.push(equipeA);
   	}
   	if (this.checkTeamInexistence(equipeB)){

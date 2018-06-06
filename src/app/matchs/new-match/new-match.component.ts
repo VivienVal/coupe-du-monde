@@ -47,12 +47,12 @@ export class NewMatchComponent implements OnInit {
   }
 
   onSaveMatch() {
-  	const equipeA = new Team(this.matchForm.get('equipeA').value);
-  	const equipeB = new Team(this.matchForm.get('equipeB').value);
     const poule = this.matchForm.get('poule').value;
+  	const equipeA = new Team(this.matchForm.get('equipeA').value, poule);
+  	const equipeB = new Team(this.matchForm.get('equipeB').value, poule);
   	const date = this.matchForm.get('date').value;
-    const newMatch = new Match(equipeA, equipeB, date, poule);
-    this.poulesService.createPoule(poule);
+    const newMatch = new Match(equipeA, equipeB, date);
+    this.poulesService.createPoule(new Poule(poule));
     this.matchsService.createMatch(newMatch);
     this.teamsService.createTeams(equipeA, equipeB);
     this.router.navigate(['/matchs', 'list']);

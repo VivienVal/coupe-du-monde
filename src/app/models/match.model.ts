@@ -8,12 +8,10 @@ export class Match {
 	scoreA: number;
 	scoreB: number;
 	intDate: number;
-	poule: string;
 
-	constructor(equipeA: Team, equipeB: Team, date: string, poule: string){
+	constructor(equipeA: Team, equipeB: Team, date: string){
 		this.equipeA = equipeA;
 		this.equipeB = equipeB;
 		this.date = new Date(date);
-		this.poule = poule;
 	}
 }
