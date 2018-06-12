@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatchsService } from '../../services/matchs.service';
 import { Match } from '../../models/match.model';
+import { Pari } from '../../models/pari.model';
 import { Subscription } from 'rxjs/subscription';
 import { Router } from '@angular/router';
+import { ParisService } from '../../services/paris.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-list-matchs',
@@ -12,6 +15,7 @@ import { Router } from '@angular/router';
 export class ListMatchsComponent implements OnInit, OnDestroy {
 
   matchs: Match[];
+  matchWithPari: number[] = [];
   matchSubscription: Subscription;
   changeMatchSubscription: Subscription;
   options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -19,14 +23,18 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
   futurMatchs = [];
   changeMatch: boolean;
   matchIndex: number;
+  paris: Pari[];
+  parisSubscription: Subscription;
 
   constructor(  private matchsService: MatchsService,
-                private router: Router) { }
+                private router: Router,
+                private authService: AuthService,
+                private parisService: ParisService) { }
 
   ngOnInit() {
 	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
 	  		(matchs: Match[]) => {
-	  			this.matchs = matchs;          
+	  			this.matchs = matchs;      
           for (let match of this.matchs){
             if (match.intDate < new Date().getTime()){
               this.passedMatchs.push(match);
@@ -34,7 +42,13 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
             else {
               this.futurMatchs.push(match);
             }
-          }
+          }          
+          this.parisSubscription = this.parisService.parisSubject.subscribe(
+            (paris: Pari[]) => {
+              this.paris = paris;
+              this.findMatchsWithParis();
+            }
+          );
 	  		}
 	  );
     this.changeMatchSubscription = this.matchsService.changeMatchSubject.subscribe(
@@ -65,6 +79,25 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
 
   onChangeMatchs(){
     this.matchsService.changeDisplayMatch();
+  }
+
+  findMatchsWithParis(){
+    this.matchWithPari.splice(0, this.matchWithPari.length);
+    for (let pari of this.paris){
+      for (let i in this.matchs){
+        if (this.matchsService.matchEquals(this.matchs[i], pari.match) && 
+            this.authService.userName == pari.user){
+          this.matchWithPari.push(+i);
+        }
+      }
+    }
+  }
+
+  getColor(i: number){
+    if (this.matchWithPari.indexOf(i) != -1){
+      return 'lightgreen';
+    }
+    return '';
   }
 
   ngOnDestroy(){

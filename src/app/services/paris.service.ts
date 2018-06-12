@@ -146,4 +146,13 @@ export class ParisService {
     }
     return -1;
   }
+
+  findPari(match: Match, userName: string){
+    for (let pari of this.paris){
+      if (this.matchEquals(match, pari.match) && userName == pari.user){
+        return pari;
+      }
+    }
+    return null;
+  }
 }

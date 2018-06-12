@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { Pari } from '../../models/pari.model';
 import { MatchsService} from '../../services/matchs.service';
+import { ParisService } from '../../services/paris.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/subscription';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-single-match',
@@ -24,7 +26,9 @@ export class SingleMatchComponent implements OnInit {
 
   constructor(	private matchsService: MatchsService,
   				private router: Router,
-  				private route: ActivatedRoute) { }
+  				private route: ActivatedRoute,
+          private parisService: ParisService,
+          private authService: AuthService) { }
 
   ngOnInit() {
   	const id = this.route.snapshot.params['id'];
@@ -33,6 +37,7 @@ export class SingleMatchComponent implements OnInit {
   			this.match = match;
         this.isScoreSet = (typeof(match.scoreA) != 'undefined');
         this.isMatchDatePassed = new Date() > match.date;
+        this.pari = this.parisService.findPari(this.match, this.authService.userName);
   		}
   	);
   	this.pariSubscription = this.matchsService.pariClickedSubject.subscribe(

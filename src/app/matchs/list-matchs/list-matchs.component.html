@@ -8,6 +8,7 @@
       <button
         class="list-group-item"
         *ngFor="let match of futurMatchs; let i = index"
+        [ngStyle]="{'background-color': getColor(i)}"
         (click)="onViewMatch(i, 'f')">
         <div class="col-xs-8">
           <h3 class="list-group-item-heading" style="">
