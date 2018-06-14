@@ -92,7 +92,6 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
       for (let i in this.futurMatchs){
         if (this.matchsService.matchEquals(this.futurMatchs[i], pari.match) && 
             this.authService.userName == pari.user){
-            console.log(this.futurMatchs[i], pari, i);
           this.matchWithPari.push(+i);
         }
       }

@@ -58,6 +58,7 @@ export class MatchsService {
           }
         );
         this.emitMatchs();
+        this.saveMatchs();
       }
     );
   }
