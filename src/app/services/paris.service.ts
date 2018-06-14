@@ -118,10 +118,10 @@ export class ParisService {
   }
 
   isPariValid(pari: Pari, scoreA: number, scoreB: number){
-    if (pari.scoreA == scoreA && pari.scoreB == scoreB){
+    if (+pari.scoreA == +scoreA && +pari.scoreB == +scoreB){
       return 3;
     }
-    else if (Math.sign(pari.scoreA - pari.scoreB) == Math.sign(scoreA - scoreB)){
+    else if (Math.sign(+pari.scoreA - +pari.scoreB) == Math.sign(+scoreA - +scoreB)){
       return 1;
     }
     return 0;

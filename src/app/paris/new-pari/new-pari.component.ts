@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatchsService } from '../../services/matchs.service';
 import { Subscription } from 'rxjs/subscription';
 import { AuthService } from '../../services/auth.service';
+import { Match } from '../../models/match.model';
 
 @Component({
   selector: 'app-new-pari',
@@ -17,6 +18,8 @@ export class NewPariComponent implements OnInit, OnDestroy {
   pariForm: FormGroup;
   pariSubscription: Subscription;
   pariClicked: boolean;
+  match: Match;
+  id: number;
 
   constructor(	private router: Router,
   				private parisService: ParisService,
@@ -26,6 +29,8 @@ export class NewPariComponent implements OnInit, OnDestroy {
           private authService: AuthService) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
+    this.match = this.matchsService.matchs[this.id];
   	this.initForm();
   	this.pariSubscription = this.matchsService.pariClickedSubject.subscribe(
   		(pariClicked: boolean) => {
@@ -46,12 +51,10 @@ export class NewPariComponent implements OnInit, OnDestroy {
     const userName = this.authService.userName;
   	const scoreA = this.pariForm.get('scoreA').value;
   	const scoreB = this.pariForm.get('scoreB').value;
-    const id = this.route.snapshot.params['id'];
-    const match = this.matchsService.matchs[id];
-    const newPari = new Pari(match, scoreA, scoreB, userName);
+    const newPari = new Pari(this.match, scoreA, scoreB, userName);
     this.parisService.createNewPari(newPari);
     this.matchsService.changePariClicked();    
-    this.parisService.findPari(match, this.authService.userName);
+    this.parisService.findPari(this.match, this.authService.userName);
     //this.router.navigate(['/matchs', 'list']);
 
   }

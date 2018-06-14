@@ -28,10 +28,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.matchsService.getMatchs(); 
-    //this.parisService.getParis();
-    //this.parisService.getUsers(); 
-    //this.teamsService.getTeams();
-    //this.poulesService.getPoules();
+    this.parisService.getParis();
+    this.parisService.getUsers(); 
+    this.teamsService.getTeams();
+    this.poulesService.getPoules();
     this.authService.checkAuth();
     this.authSubscription = this.authService.authSubject.subscribe(
       (userName: string) => {

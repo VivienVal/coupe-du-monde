@@ -87,11 +87,12 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
   }
 
   findMatchsWithParis(){
-    this.matchWithPari.splice(0, this.matchWithPari.length);
+    this.matchWithPari.splice(0, this.matchWithPari.length);  
     for (let pari of this.paris){
-      for (let i in this.matchs){
-        if (this.matchsService.matchEquals(this.matchs[i], pari.match) && 
+      for (let i in this.futurMatchs){
+        if (this.matchsService.matchEquals(this.futurMatchs[i], pari.match) && 
             this.authService.userName == pari.user){
+            console.log(this.futurMatchs[i], pari, i);
           this.matchWithPari.push(+i);
         }
       }

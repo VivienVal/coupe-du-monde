@@ -3,12 +3,12 @@
     <h2>Pariez sur ce match</h2>
     <form [formGroup]="pariForm" (ngSubmit)="onSavePari()">
       <div class="form-group">
-        <label for="scoreA">ScoreA</label>
+        <label for="scoreA">{{ match.equipeA.name }}</label>
         <input type="text" id="scoreA"
                class="form-control" formControlName="scoreA">
       </div>
       <div class="form-group">
-        <label for="scoreB">ScoreB</label>
+        <label for="scoreB">{{ match.equipeB.name }}</label>
         <input type="text" id="scoreB"
                class="form-control" formControlName="scoreB">
       </div> 
