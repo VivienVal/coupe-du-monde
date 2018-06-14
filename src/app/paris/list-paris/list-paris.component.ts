@@ -26,6 +26,9 @@ export class ListParisComponent implements OnInit, OnDestroy {
                 private router: Router) { }
 
   ngOnInit() {
+    if(this.parisService.paris.length == 0){
+      this.parisService.getParis();
+    }
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   	this.parisSubscription = this.parisService.parisSubject.subscribe(
 	  		(paris: Pari[]) => {
@@ -51,5 +54,6 @@ export class ListParisComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.parisSubscription.unsubscribe();
+    this.matchsSubscription.unsubscribe();
   }
 }

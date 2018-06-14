@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pari } from '../../models/pari.model';
 import { ParisService } from '../../services/paris.service';
@@ -13,7 +13,7 @@ import { TeamsService } from '../../services/teams.service';
   templateUrl: './set-match-score.component.html',
   styleUrls: ['./set-match-score.component.scss']
 })
-export class SetMatchScoreComponent implements OnInit {
+export class SetMatchScoreComponent implements OnInit, OnDestroy {
 
   setScoreForm: FormGroup;
   scoreClickedSubscription: Subscription;
@@ -53,5 +53,9 @@ export class SetMatchScoreComponent implements OnInit {
     this.parisService.setScorePari(match, scoreA, scoreB);
     this.teamsService.setTeamPoints(scoreA, scoreB, match.equipeA, match.equipeB);
     this.matchsService.changeScoreClicked();
+  }
+
+  ngOnDestroy(){
+    this.scoreClickedSubscription.unsubscribe();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { Pari } from '../../models/pari.model';
 import { MatchsService} from '../../services/matchs.service';
@@ -12,12 +12,13 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './single-match.component.html',
   styleUrls: ['./single-match.component.scss']
 })
-export class SingleMatchComponent implements OnInit {
+export class SingleMatchComponent implements OnInit, OnDestroy {
 
   match: Match;
   pari: Pari;
   pariClicked: boolean;
   setScoreClicked: boolean;
+  pariClickedSubscription: Subscription;
   pariSubscription: Subscription;
   setScoreSubscription: Subscription;
   isScoreSet: boolean = false;
@@ -32,15 +33,25 @@ export class SingleMatchComponent implements OnInit {
 
   ngOnInit() {
   	const id = this.route.snapshot.params['id'];
+    this.parisService.getParis().then(
+      (val: string) => {
+        console.log(val);
+      }
+    );
+    this.pariSubscription = this.parisService.pariSubject.subscribe(
+      (pari: Pari) => {
+        this.pari = pari;
+      }
+    );
   	this.matchsService.getSingleMatch(+id).then(
   		(match: Match) => {
   			this.match = match;
         this.isScoreSet = (typeof(match.scoreA) != 'undefined');
         this.isMatchDatePassed = new Date() > match.date;
-        this.pari = this.parisService.findPari(this.match, this.authService.userName);
+        this.parisService.findPari(this.match, this.authService.userName);
   		}
   	);
-  	this.pariSubscription = this.matchsService.pariClickedSubject.subscribe(
+  	this.pariClickedSubscription = this.matchsService.pariClickedSubject.subscribe(
   		(pariClicked: boolean) => {
   			this.pariClicked = pariClicked;
   		}
@@ -51,6 +62,8 @@ export class SingleMatchComponent implements OnInit {
       }
     );
   	this.matchsService.emitPariClicked();
+    this.matchsService.emitscoreClicked();
+    this.parisService.emitPari();
   }
 
   onBack() {
@@ -63,5 +76,10 @@ export class SingleMatchComponent implements OnInit {
 
   onClickSetScore() {
     this.matchsService.changeScoreClicked();
+  }
+
+  ngOnDestroy(){
+    this.pariClickedSubscription.unsubscribe();
+    this.setScoreSubscription.unsubscribe();
   }
 }

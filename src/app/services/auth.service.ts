@@ -13,9 +13,9 @@ export class AuthService {
   userName: string;
   authSubject = new Subject<string>();
   userTypeSubject = new Subject<string>();
-  users = [];
+  userType: string;
 
-  constructor(	private parisService: ParisService) { }
+  constructor(private parisService: ParisService) { }
 
   createNewUser(email: string, password: string){
   	return new Promise(
@@ -62,8 +62,8 @@ export class AuthService {
 	  		if (user){
 	  			this.isAuth = true;
          	this.userName = user.email;
-          this.authSubject.next(this.userName);
-          this.userTypeSubject.next(this.findUserType(user.email));
+          this.emitAuth();
+          this.emitUserType();
 	  		}
 	  		else {
 	  			this.isAuth = false;
@@ -71,23 +71,47 @@ export class AuthService {
           		this.authSubject.next('');
 	  		}
 	  	}
-	);
+	  );
+  }
+
+  emitAuth(){    
+    this.authSubject.next(this.userName);
+  }
+
+  emitUserType(){
+    this.userTypeSubject.next(this.userType);
   }
 
   findUserType(userName: string){
+    if(this.parisService.users.length == 0){
+      this.parisService.getUsers().then(
+        (valid: string) => {          
+          this.searchUser(userName);
+        }
+      );
+    }
+    else {
+      this.searchUser(userName);
+    }
+  }
+
+  searchUser(userName: string){
   	for (let user of this.parisService.users){
   		if (userName == user.userName){
+        this.userType = user.type;
+        this.emitUserType();
   			return user.type;
   		}
   	}
+    this.userType = 'undefined';
+    this.emitUserType();
   	return 'undefined';
   }
 
   instanciateUser(userName){
-  	this.users = this.parisService.users;
   	const newUser = new User(userName);
-  	this.users.push(newUser);
-  	firebase.database().ref('/users').set(this.users);
+  	this.parisService.users.push(newUser);
+  	firebase.database().ref('/users').set(this.parisService.users);
   	this.parisService.emitUsers();
   }
 }

@@ -17,7 +17,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   constructor(	private usersService: UsersService,
   				private parisService: ParisService) { }
 
-  ngOnInit() {  	
+  ngOnInit() { 
+    if(this.parisService.users.length == 0){
+      this.parisService.getUsers();
+    }  	
 	  this.userSubscription = this.parisService.userSubject.subscribe(
 	  		(users: User[]) => {
 	  			this.users = users;

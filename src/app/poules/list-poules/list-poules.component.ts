@@ -21,6 +21,12 @@ export class ListPoulesComponent implements OnInit, OnDestroy {
   				private teamsService: TeamsService) { }
 
   ngOnInit() {
+    if(this.poulesService.poules.length == 0){
+      this.poulesService.getPoules();
+    }
+    if(this.teamsService.teams.length == 0){
+      this.teamsService.getTeams();
+    }
   	this.poulesSubscription = this.poulesService.poulesSubject.subscribe(
 	  		(poules: Poule[]) => {
 	  			this.poules = poules;
@@ -31,10 +37,13 @@ export class ListPoulesComponent implements OnInit, OnDestroy {
 	  			this.teams = teams;
 	  		}
 	  );
+    this.poulesService.emitPoules();
+    this.teamsService.emitTeams();
   }
 
   ngOnDestroy(){
   	this.poulesSubscription.unsubscribe();
+    this.teamsSubscription.unsubscribe();
   }
 
 }

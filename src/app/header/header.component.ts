@@ -28,15 +28,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.matchsService.getMatchs(); 
-    this.parisService.getParis();
-    this.parisService.getUsers();  
-    this.teamsService.getTeams();
-    this.poulesService.getPoules();
+    //this.parisService.getParis();
+    //this.parisService.getUsers(); 
+    //this.teamsService.getTeams();
+    //this.poulesService.getPoules();
     this.authService.checkAuth();
     this.authSubscription = this.authService.authSubject.subscribe(
       (userName: string) => {
         this.isAuth = userName !== '';
         this.userName = userName;
+        this.authService.findUserType(userName);
       }
     );
     this.userTypeSubscription = this.authService.userTypeSubject.subscribe(
@@ -44,6 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isAdmin = userType == 'admin';
       }
     );
+    this.authService.emitAuth();
+    this.authService.emitUserType();
   }
 
   onSignOut(){
@@ -52,5 +55,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.authSubscription.unsubscribe();
+    this.userTypeSubscription.unsubscribe();
   }
 }

@@ -31,7 +31,10 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
                 private authService: AuthService,
                 private parisService: ParisService) { }
 
-  ngOnInit() {
+  ngOnInit() {  
+    if(this.parisService.paris.length == 0){
+      this.parisService.getParis();
+    }
 	  this.matchSubscription = this.matchsService.matchsSubject.subscribe(
 	  		(matchs: Match[]) => {
 	  			this.matchs = matchs;      
@@ -57,6 +60,8 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
       }
     );
 	  this.matchsService.emitMatchs();
+    this.parisService.emitParis();
+    this.matchsService.emitChangeMatch();
   }
 
   onViewMatch(index: number, whatTab: string){
@@ -102,5 +107,7 @@ export class ListMatchsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.matchSubscription.unsubscribe();
+    this.changeMatchSubscription.unsubscribe();
+    this.parisSubscription.unsubscribe();
   }
 }

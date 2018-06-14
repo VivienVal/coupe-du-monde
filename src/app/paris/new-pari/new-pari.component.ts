@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pari } from '../../models/pari.model';
 import { ParisService } from '../../services/paris.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './new-pari.component.html',
   styleUrls: ['./new-pari.component.scss']
 })
-export class NewPariComponent implements OnInit {
+export class NewPariComponent implements OnInit, OnDestroy {
 
   pariForm: FormGroup;
   pariSubscription: Subscription;
@@ -48,9 +48,15 @@ export class NewPariComponent implements OnInit {
   	const scoreB = this.pariForm.get('scoreB').value;
     const id = this.route.snapshot.params['id'];
     const match = this.matchsService.matchs[id];
-    console.log(match);
     const newPari = new Pari(match, scoreA, scoreB, userName);
     this.parisService.createNewPari(newPari);
-    this.matchsService.changePariClicked();
+    this.matchsService.changePariClicked();    
+    this.parisService.findPari(match, this.authService.userName);
+    //this.router.navigate(['/matchs', 'list']);
+
+  }
+
+  ngOnDestroy(){
+    this.pariSubscription.unsubscribe();
   }
 }

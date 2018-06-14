@@ -10,7 +10,7 @@ import DataSnapshot = firebase.database.DataSnapshot;
 })
 export class MatchsService {
 
-  matchs = [];
+  matchs: Match[] = [];
   pariClicked: boolean = false;
   setScoreClicked: boolean = false;
   changeMatch: boolean = false;

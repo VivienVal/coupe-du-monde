@@ -14,13 +14,19 @@ export class ParisService {
 
   userSubject = new Subject<User[]>();
   parisSubject = new Subject<Pari[]>();
-  paris = [];
-  users = [];
+  paris: Pari[] = [];
+  users: User[] = [];
+  pari: Pari;
+  pariSubject = new Subject<Pari>();
 
   constructor() { }
 
   emitParis(){
   	this.parisSubject.next(this.paris);
+  }
+
+  emitPari(){
+    this.pariSubject.next(this.pari);
   }
 
   saveParis(){
@@ -31,18 +37,23 @@ export class ParisService {
   }
 
   getParis(){
-    firebase.database().ref('/paris')
-      .on('value', (data: DataSnapshot) => {
-        this.paris = data.val() ? data.val() : [];
-        for (let pari of this.paris){
-          pari.match['date'] = new Date(pari.match.intDate);
-        }
-        this.paris.sort(
-          (a, b) => {
-            return a.match.intDate - b.match.intDate;
+    return new Promise(
+      (resolve, reject) => {
+        firebase.database().ref('/paris')
+          .on('value', (data: DataSnapshot) => {
+            this.paris = data.val() ? data.val() : [];
+            for (let pari of this.paris){
+              pari.match['date'] = new Date(pari.match.intDate);
+            }
+            this.paris.sort(
+              (a, b) => {
+                return a.match.intDate - b.match.intDate;
+              }
+            );        
+            this.emitParis();
+            resolve('ok');
           }
-        );        
-        this.emitParis();
+        );
       }
     );
   }
@@ -125,15 +136,20 @@ export class ParisService {
   }
 
   getUsers(){
-    firebase.database().ref('/users')
-      .on('value', (data: DataSnapshot) => {
-        this.users = data.val() ? data.val() : [];
-        this.users.sort(
-          (a, b) => {
-            return b.nbPoints - a.nbPoints;
+    return new Promise(
+      (resolve, reject) => {
+        firebase.database().ref('/users')
+          .on('value', (data: DataSnapshot) => {
+            this.users = data.val() ? data.val() : [];
+            this.users.sort(
+              (a, b) => {
+                return b.nbPoints - a.nbPoints;
+              }
+            )
+            this.emitUsers();
+            resolve('users ok');
           }
-        )
-        this.emitUsers();
+        );
       }
     );
   }
@@ -148,11 +164,28 @@ export class ParisService {
   }
 
   findPari(match: Match, userName: string){
+    if(this.paris.length == 0){
+      this.getParis().then(
+        (valid: string) => {          
+          this.searchPari(match, userName);
+        }
+      );
+    }
+    else {
+      this.searchPari(match, userName);
+    }
+  }
+
+  searchPari(match: Match, userName: string){
     for (let pari of this.paris){
       if (this.matchEquals(match, pari.match) && userName == pari.user){
+        this.pari = pari;
+        this.emitPari();
         return pari;
       }
     }
+    this.pari = null;
+    this.emitPari();
     return null;
   }
 }

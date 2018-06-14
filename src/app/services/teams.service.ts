@@ -9,7 +9,7 @@ import DataSnapshot = firebase.database.DataSnapshot;
 })
 export class TeamsService {
 
-  teams = [];
+  teams: Team[] = [];
   teamsSubject = new Subject<Team[]>();
 
   constructor() { }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { Team } from '../../models/team.model';
 import { Poule } from '../../models/poule.model';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/subscription';
   templateUrl: './new-match.component.html',
   styleUrls: ['./new-match.component.scss']
 })
-export class NewMatchComponent implements OnInit {
+export class NewMatchComponent implements OnInit, OnDestroy {
 
   poules: Poule[];
   matchForm: FormGroup;
@@ -56,5 +56,9 @@ export class NewMatchComponent implements OnInit {
     this.matchsService.createMatch(newMatch);
     this.teamsService.createTeams(equipeA, equipeB);
     this.router.navigate(['/matchs', 'list']);
+  }
+
+  ngOnDestroy() {
+    this.pouleSubscription.unsubscribe();
   }
 }

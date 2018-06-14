@@ -9,7 +9,7 @@ import DataSnapshot = firebase.database.DataSnapshot;
 })
 export class PoulesService {
 
-  poules = [new Poule('bonjour')];
+  poules: Poule[] = [];
   poulesSubject = new Subject<Poule[]>();
 
   constructor() { }

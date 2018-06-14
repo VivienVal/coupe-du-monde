@@ -9,7 +9,7 @@ import DataSnapshot = firebase.database.DataSnapshot;
 })
 export class UsersService {
 
-  users = [];
+  users: User[] = [];
   usersSubject = new Subject<User[]>();
 
   constructor() { }
