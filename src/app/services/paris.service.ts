@@ -193,6 +193,7 @@ export class ParisService {
 
 
   findParisForOneMatch(match: Match){
+    this.parisForOneMatch = [];
     if(this.paris.length == 0){
         this.getParis().then(
           (valid: string) => {          
