@@ -3,7 +3,7 @@
   	<!--img style="max-width:400px;" *ngIf="book.photo" [src]="book.photo"-->
     <h1 *ngIf="match">{{ match.equipeA.name }} - {{ match.equipeB.name }}</h1>
     <p *ngIf="match">{{ match.date.toLocaleString('fr-FR', options) }}</p>
-    <h1 *ngIf="isScoreSet">{{ match.scoreA }} - {{ match.scoreB }}</h1>    
+    <h1 *ngIf="isScoreSet">{{ +match.scoreA }} - {{ +match.scoreB }}</h1>    
     <h3 *ngIf="pari != null" style="color:blue;">Votre pari actuel : {{ pari.scoreA }} - {{ pari.scoreB }}</h3>
     <button class="btn btn-default" 
             (click)="onPari()"
