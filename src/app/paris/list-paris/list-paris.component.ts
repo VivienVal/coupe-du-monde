@@ -52,6 +52,21 @@ export class ListParisComponent implements OnInit, OnDestroy {
     }
   }
 
+  getColor(pari: Pari){
+    if (pari.scorePari){
+      if (pari.scorePari == 3){
+        return 'lightgreen';
+      }
+      else if (pari.scorePari == 1){
+        return 'lightgoldenrodyellow';
+      }
+    }
+    else if (new Date().getTime() > pari.match.intDate){
+      return 'lightsalmon';
+    }
+    return 'lightgrey';
+  }
+
   ngOnDestroy(){
     this.parisSubscription.unsubscribe();
     this.matchsSubscription.unsubscribe();

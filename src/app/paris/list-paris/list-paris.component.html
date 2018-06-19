@@ -5,7 +5,8 @@
         *ngFor="let pari of paris; let i = index">
       <button class="list-group-item"
               *ngIf="pari.user === authService.userName"
-              (click)="onViewPari(i)">
+              (click)="onViewPari(i)"
+              [ngStyle]="{'background-color': getColor(pari)}">
         <div class="row">
           <div class="col-xs-6">
             <h3 class="list-group-item-heading">
