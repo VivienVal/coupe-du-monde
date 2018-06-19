@@ -14,5 +14,8 @@
     <button class="btn btn-default" (click)="onBack()">Retour</button>
     <app-new-pari *ngIf="pariClicked"></app-new-pari>
     <app-set-match-score *ngIf="setScoreClicked"></app-set-match-score>
+    <div *ngFor='let onePari of parisForOneMatch' style="color: green;">
+        <h3 *ngIf='onePari.user != this.authService.userName'>Pari de {{ onePari.user }} {{ +onePari.scoreA }} - {{ +onePari.scoreB }}</h3>
+    </div>
   </div>
 </div>

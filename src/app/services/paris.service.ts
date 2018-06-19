@@ -17,7 +17,9 @@ export class ParisService {
   paris: Pari[] = [];
   users: User[] = [];
   pari: Pari;
-  pariSubject = new Subject<Pari>();
+  pariSubject = new Subject<Pari>();  
+  parisForOneMatch: Pari[] = [];
+  parisForOneMatchSubject = new Subject<Pari[]>();
 
   constructor() { }
 
@@ -187,5 +189,33 @@ export class ParisService {
     this.pari = null;
     this.emitPari();
     return null;
+  }
+
+
+  findParisForOneMatch(match: Match){
+    if(this.paris.length == 0){
+        this.getParis().then(
+          (valid: string) => {          
+            this.searchAllParis(match);
+          }
+        );
+      }
+      else {
+        this.searchAllParis(match);
+      }
+  }
+
+  searchAllParis(match){
+    for (let pari of this.paris){
+        if (this.matchEquals(match, pari.match)){
+          this.parisForOneMatch.push(pari);
+        }
+      }     
+      this.emitParisForOneMatch();
+      return this.parisForOneMatch;
+  }
+
+  emitParisForOneMatch(){
+    this.parisForOneMatchSubject.next(this.parisForOneMatch);
   }
 }

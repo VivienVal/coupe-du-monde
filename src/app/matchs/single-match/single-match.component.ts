@@ -16,6 +16,7 @@ export class SingleMatchComponent implements OnInit, OnDestroy {
 
   match: Match;
   pari: Pari;
+  parisForOneMatch: Pari[] = [];
   pariClicked: boolean;
   setScoreClicked: boolean;
   pariClickedSubscription: Subscription;
@@ -24,6 +25,7 @@ export class SingleMatchComponent implements OnInit, OnDestroy {
   isScoreSet: boolean = false;
   options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
   isMatchDatePassed: boolean;
+  parisForOneMatchSubscription: Subscription;
 
   constructor(	private matchsService: MatchsService,
   				private router: Router,
@@ -43,11 +45,17 @@ export class SingleMatchComponent implements OnInit, OnDestroy {
         this.pari = pari;
       }
     );
+    this.parisForOneMatchSubscription = this.parisService.parisForOneMatchSubject.subscribe(
+      (parisForOneMatch: Pari[]) => {
+        this.parisForOneMatch = parisForOneMatch;
+      }
+    )
   	this.matchsService.getSingleMatch(+id).then(
   		(match: Match) => {
   			this.match = match;
         this.isScoreSet = (typeof(match.scoreA) != 'undefined');
         this.isMatchDatePassed = new Date() > match.date;
+        this.parisService.findParisForOneMatch(this.match);
         this.parisService.findPari(this.match, this.authService.userName);
   		}
   	);
@@ -81,5 +89,7 @@ export class SingleMatchComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.pariClickedSubscription.unsubscribe();
     this.setScoreSubscription.unsubscribe();
+    this.pariSubscription.unsubscribe();
+    this.parisForOneMatchSubscription.unsubscribe();
   }
 }
