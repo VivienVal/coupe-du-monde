@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pari } from '../../models/pari.model';
+import { Match } from '../../models/match.model';
 import { ParisService } from '../../services/paris.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatchsService } from '../../services/matchs.service';
@@ -18,6 +19,8 @@ export class SetMatchScoreComponent implements OnInit, OnDestroy {
   setScoreForm: FormGroup;
   scoreClickedSubscription: Subscription;
   scoreClicked: boolean;
+  match: Match;
+  id: number;
 
   constructor(	private router: Router,
   				private parisService: ParisService,
@@ -27,7 +30,9 @@ export class SetMatchScoreComponent implements OnInit, OnDestroy {
           private authService: AuthService,
           private teamsService: TeamsService) { }
 
-  ngOnInit() {
+  ngOnInit() {  
+    this.id = this.route.snapshot.params['id'];
+    this.match = this.matchsService.matchs[this.id];
   	this.initForm();
   	this.scoreClickedSubscription = this.matchsService.scoreClickedSubject.subscribe(
   		(scoreClicked: boolean) => {
@@ -47,11 +52,9 @@ export class SetMatchScoreComponent implements OnInit, OnDestroy {
   onSaveMatchScore() {
   	const scoreA = this.setScoreForm.get('scoreA').value;
   	const scoreB = this.setScoreForm.get('scoreB').value;
-    const id = this.route.snapshot.params['id'];
-    const match = this.matchsService.matchs[id];
-    this.matchsService.setMatchScore(id, scoreA, scoreB);
-    this.parisService.setScorePari(match, scoreA, scoreB);
-    this.teamsService.setTeamPoints(scoreA, scoreB, match.equipeA, match.equipeB);
+    this.matchsService.setMatchScore(this.id, scoreA, scoreB);
+    this.parisService.setScorePari(this.match, scoreA, scoreB);
+    this.teamsService.setTeamPoints(scoreA, scoreB, this.match.equipeA, this.match.equipeB);
     this.matchsService.changeScoreClicked();
   }
 
