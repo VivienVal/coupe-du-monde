@@ -17,12 +17,12 @@ export class AuthService {
 
   constructor(private parisService: ParisService) { }
 
-  createNewUser(email: string, password: string){
+  createNewUser(email: string, password: string, login: string){
   	return new Promise(
 	  	(resolve, reject) => {
 	  		firebase.auth().createUserWithEmailAndPassword(email, password).then(
 		  		() => {
-	  				this.instanciateUser(email);	
+	  				this.instanciateUser(email, login);	
 		  			resolve();
 		  		},
 		  		(error) => {
@@ -108,8 +108,8 @@ export class AuthService {
   	return 'undefined';
   }
 
-  instanciateUser(userName){
-  	const newUser = new User(userName);
+  instanciateUser(userName, login: string){
+  	const newUser = new User(userName, login);
   	this.parisService.users.push(newUser);
   	firebase.database().ref('/users').set(this.parisService.users);
   	this.parisService.emitUsers();

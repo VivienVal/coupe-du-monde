@@ -6,8 +6,11 @@
         class="list-group-item"
         *ngFor="let user of users; let i = index">
         <div class="col-xs-10">
-          <h3 class="list-group-item-heading" style="">
+          <h3 class="list-group-item-heading" style="" *ngIf="user.login == null">
             {{ user.userName }}
+          </h3>
+          <h3 class="list-group-item-heading" style="" *ngIf="user.login != null">
+            {{ user.login }}
           </h3>
         </div>
         <div class="col-xs-2"> 
